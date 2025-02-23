@@ -47,7 +47,7 @@ public class HangupHelper extends Handler {
                 }
             }
             case CANCEL_HANGUP -> {
-                ToastHelper.makeText(mContext, "请勿移动手指");
+                //ToastHelper.makeText(mContext, "请勿移动手指");
             }
             case LOW_TIME_HANGUP -> {
                 ToastHelper.makeText(mContext, "长按时间过短");
