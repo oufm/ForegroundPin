@@ -19,6 +19,7 @@
 package com.hchen.foregroundpin.hook;
 
 import static com.hchen.hooktool.log.XposedLog.logE;
+import static com.hchen.hooktool.log.XposedLog.logI;
 import static com.hchen.hooktool.log.XposedLog.logW;
 
 import android.content.Context;
@@ -109,6 +110,7 @@ public class ForegroundPin extends BaseHC {
                             Context context = getField(mActivityTaskManagerService, "mContext");
                             if (observerHelper.findInMap(hashMap, pkg)) {
                                 int action = first();
+//                                logI("ForegroundPin", pkg + " dispatchFreeFormStackModeChanged " + action);
                                 if (action == 6) {
                                     fail = false;
                                     removeHandler();
@@ -120,6 +122,11 @@ public class ForegroundPin extends BaseHC {
                                     mHandler.setContext(context);
                                     if (!observerHelper.findInMap(mHandler.hangupMap, pkg))
                                         mHandler.sendMessage(mHandler.obtainMessage(LOW_TIME_HANGUP));
+                                } else if (action == 0) {
+                                    if (observerHelper.findInMap(mHandler.hangupMap, pkg)) {
+                                        mHandler.hangupMap.remove(pkg);
+                                        logI("ForegroundPin", pkg + " cancel hang up.");
+                                    }
                                 }
                             }
                         }
@@ -162,7 +169,9 @@ public class ForegroundPin extends BaseHC {
                                     Object asBinder = callMethod(getService, "asBinder");
                                     int TRANSACT_ID_SET_PACKAGE_HOLD_ON = getStaticField(clz, "TRANSACT_ID_SET_PACKAGE_HOLD_ON");
                                     callMethod(asBinder, "transact", new Object[]{TRANSACT_ID_SET_PACKAGE_HOLD_ON, obtain, obtain1, 0});
-                                    mHandler.hangupMap.remove(pkg);
+                                    //mHandler.hangupMap.remove(pkg);
+                                    logI("ForegroundPin", "keep '" + pkg + "' running with screen off. " +
+                                            "TRANSACT_ID_SET_PACKAGE_HOLD_ON = " + TRANSACT_ID_SET_PACKAGE_HOLD_ON);
                                 }
                             }
                         }
