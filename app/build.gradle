@@ -7,19 +7,19 @@ android {
     InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
     properties.load(inputStream)
 
-    def keyKeyStoreFile = file(properties.getProperty('keyStoreFile'))
-    def keyKeyStorePassword = properties.getProperty('keyStorePassword')
-    def keyKeyAlias = properties.getProperty('keyAlias')
-    def keyKeyAliasPassword = properties.getProperty('keyAliasPassword')
-
-    signingConfigs {
-        release {
-            storeFile keyKeyStoreFile
-            storePassword keyKeyStorePassword
-            keyAlias keyKeyAlias
-            keyPassword keyKeyAliasPassword
-        }
-    }
+//    def keyKeyStoreFile = file(properties.getProperty('keyStoreFile'))
+//    def keyKeyStorePassword = properties.getProperty('keyStorePassword')
+//    def keyKeyAlias = properties.getProperty('keyAlias')
+//    def keyKeyAliasPassword = properties.getProperty('keyAliasPassword')
+//
+//    signingConfigs {
+//        release {
+//            storeFile keyKeyStoreFile
+//            storePassword keyKeyStorePassword
+//            keyAlias keyKeyAlias
+//            keyPassword keyKeyAliasPassword
+//        }
+//    }
 
     namespace 'com.hchen.foregroundpin'
     compileSdk 34
@@ -32,7 +32,7 @@ android {
         versionCode 2024052605
         versionName "3.1"
 
-        signingConfig signingConfigs.release
+//        signingConfig signingConfigs.release
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
     }
@@ -57,8 +57,8 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
@@ -87,7 +87,7 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
 
     /*HookTool*/
-    implementation 'com.github.HChenX:HookTool:v.0.9.8'
+    implementation project(':HookTool')
 
     /*安卓*/
     implementation 'androidx.appcompat:appcompat:1.7.0'
